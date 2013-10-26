@@ -262,7 +262,7 @@ Experiment::RtsSnrThrldAssign( NodeContainer GpsContainer, int numOfGpsNode )
 
   std::vector<double> rtsSnrThrld(numOfGpsNode);
   for (int i = 0; i < numOfGpsNode; i++) {
-    rtsSnrThrld[assignedNode[i].first] = pow(10,(15.0-10*log10(assignedNode[i].second/1000.0))/10.0);
+    rtsSnrThrld[assignedNode[i].first] = pow(10,(15.0-10*log10(assignedNode[i].second/1000.0))/9.0);
     m_sensingRadius[ assignedNode[i].first ] = assignedNode[i].second;
 //    std::cout << 15.0-40.0*log10(assignedNode[i].second)+482.14 << ' ';
   }
@@ -541,10 +541,16 @@ int main (int argc, char *argv[])
   Config::SetDefault ("ns3::WifiRemoteStationManager::FragmentationThreshold", StringValue ("2200"));
   Config::SetDefault ("ns3::WifiRemoteStationManager::RtsCtsThreshold", StringValue ("50"));
     
+
+  int numOfGpsNodes = 0;
+  int numOfRtsNodes = 0;
   CommandLine cmd;
+  cmd.AddValue("nGpsNodes","Number of GPS node", numOfGpsNodes);
+  cmd.AddValue("nRtsNodes","Number of Rts node", numOfRtsNodes);
   cmd.Parse (argc, argv);
   Gnuplot gnuplot = Gnuplot ("clear-channel.eps");
 
+  std::cout << numOfGpsNodes << ' '<< numOfRtsNodes << std::endl;
   Experiment experiment;
 
   WifiHelper wifi;
